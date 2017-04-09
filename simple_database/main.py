@@ -66,7 +66,9 @@ class Table(object):
 
     def count(self):
         # Read the JSON file and return the counter of rows in the table
-        pass
+        with open(self.table_filepath, 'r') as f:
+            table_rows = json.load(f)['rows']
+            return len(table_rows)
 
     def describe(self):
         # Read the columns configuration from the JSON file, and return it.

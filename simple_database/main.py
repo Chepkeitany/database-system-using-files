@@ -105,11 +105,17 @@ class DataBase(object):
         # Otherwise, crete an instance of the `Table` class and assign
         # it to the current db object.
         # Make sure to also append it to `self.tables`
-        pass
+        if table_name in self._read_tables():
+            error_msg ='Table with name "{}" already exists.'.format(table_name)
+            raise ValidationError(error_msg)
+        else:
+            table = Table(db=self, name=table_name)
+            setattr(self, table_name, table)
+            self.tables.append(table_name)
 
     def show_tables(self):
         # Return the current list of tables.
-        pass
+        return self.tables
 
 
 def create_database(db_name):

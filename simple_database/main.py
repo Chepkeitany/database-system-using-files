@@ -1,4 +1,5 @@
 import os
+import json
 from datetime import date
 
 from simple_database.exceptions import ValidationError
@@ -23,6 +24,12 @@ class Table(object):
         # In case the table JSON file doesn't exist already, you must
         # initialize it as an empty table, with this JSON structure:
         # {'columns': columns, 'rows': []}
+
+        if not os.path.exists(self.table_filepath):
+            with open(self.table_filepath, 'r+') as f:
+                initial_structure = {'columns': columns, 'rows': []}
+                f.write(json.dumps(initial_structure))
+
 
         self.columns = columns or self._read_columns()
 
